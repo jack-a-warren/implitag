@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% set item_id = item.item_id %}
+{% set url = url_for('static', filename=item.url) %}
+{% set title = item.title %}
+{% import 'base.html' as base %}
+
+<html>
+  <head>
+    <title>{{ title if title else "Untitled item" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
+  </head>
+
+  <body style="background-color: {{ app_config['options'][app_config['current_db']]['background_color'] if app_config else '' }};">
+    {{ base.header(search_query) }}
+
+    <main>
+      <div class="sidebar">
+        <h5>Search</h5>
+
+        <form class="search" action="{{ url_for('search') }}">
+          <input type="text" name="q" value="{{ '' if search_query == None else search_query }}" class="autocomplete" autocomplete="off">
+          <input type="submit">
+        </form>
+
+        <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
+        <script>
+          var tags = [{% for tag in all_tags %}"{{ tag }}", {% endfor %}];
+          document.querySelectorAll(".autocomplete").forEach((input) => {
+            autocomplete(input, tags);
+          })
+        </script>
+
+        <div class="scroll-area" style="height:800px">
+          <h5>Tags</h5>
+
+          {% set search_query = '' if search_query == None else search_query %}
+
+          <ul class="plain-list" id="tag-list"> <!-- tag list -->
+            {% for tag in tags %}
+            <li class="tag">
+              <a href="{{ url_for('search', q=search_query + ' ' + tag.name + ' +') }}">+</a>
+              <a href="{{ url_for('search', q=search_query + ' ' + tag.name + ' -') }}">-</a>
+              <a href="{{ url_for('search', q=search_query + ' ' + tag.name + ' ^') }}">^</a>
+              <a href="{{ url_for('search', q=search_query + ' ' + tag.name)}}">&</a>
+              <a href="{{ url_for('search', q=tag.name) }}">{{ tag.name }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+
+          <h5>Full tags</h5>
+          <ul class="plain-list" id="full-tag-list">
+            {% for tag in full_tags %}
+            <li class="tag">
+              <a href="{{ url_for('search', q=search_query + ' ' + tag.name + ' +') }}">+</a>
+              <a href="{{ url_for('search', q=search_query + ' ' + tag.name + ' -') }}">-</a>
+              <a href="{{ url_for('search', q=search_query + ' ' + tag.name + ' ^') }}">^</a>
+              <a href="{{ url_for('search', q=search_query + ' ' + tag.name)}}">&</a>
+              <a href="{{ url_for('search', q=tag.name) }}">{{ tag.name }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <div class="content"> <!-- main post content -->
+        {% for msg in get_flashed_messages() %}
+        <h5>{{ msg }}</h5>
+        {% endfor %}
+
+        {% if title %}
+        <h3 style="font-size: 150%;">{{ title }}</h3>
+        {% endif %}
+
+        <div id="media-container">
+          {% if is_video %}
+          <video class="media" controls autoplay loop>
+            <source src="{{ url }}">
+          </video>
+
+          {% else %}
+          <img class="media" src="{{ url }}" alt="{{ title }}">
+
+          {% endif %}
+        </div>
+      </div>
+
+      <div>
+        <h5>Actions</h5>
+        <ul class="plain-list action-list"> <!-- action list -->
+          <li><a href="{{ url_for('edit_item', item_id=item_id) }}">Edit</a></li>
+          <li><a href="{{ url_for('delist_item', item_id=item_id) }}">Delist</a></li>
+        </ul>
+      </div>
+    </main>
+  </body>
+</html>

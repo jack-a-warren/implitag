@@ -1,0 +1,38 @@
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 8px;
+}
+
+.item {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item p {
+  margin: 0;
+  width: 100%;
+}
+
+.thumb {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.video-thumb {
+  border: 4px solid blue;
+  box-sizing: border-box;
+}

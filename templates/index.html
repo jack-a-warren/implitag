@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% from 'base.html' import medialist %}
+
+{% block title %}Home{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; flex-flow: column wrap; gap: 8px; margin-bottom: 32px;">
+  {{ medialist(medias, None) }}
+  <div class="paginator">
+    {% for link in page_links %}
+    <a href="{{ url_for('index', pid=link.pid) }}" {% if link.current %}class="current"{% endif %} {% if not link.active %}class="inactive"{% endif %}>{{ link.text }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

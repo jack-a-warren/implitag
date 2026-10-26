@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% import 'base.html' as base %}
+
+{% block title %}Results{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='search_result.css') }}">
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; flex-flow: column wrap; gap: 8px; margin-bottom: 32px;">
+  <p style="font-size: 60%;">{{ result_count }} result{% if result_count != 1 %}s{% endif %}</p>
+  {{ base.medialist(medias, search_query) }}
+  <div class="paginator">
+    {% for link in page_links %}
+    <a href="{{ url_for('search', pid=link.pid, q=search_query) }}" {% if link.current %}class="current"{% endif %} {% if not link.active %}class="inactive"{% endif %}>{{ link.text }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

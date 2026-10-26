@@ -1,0 +1,38 @@
+{% set url = url_for('static', filename=item.url) %}
+{% set title = "" if item.title == None else item.title %}
+
+{% extends 'base.html' %}
+{% block title %}Edit item{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='edit.css') }}">
+{% endblock %}
+
+{% block content %}
+<form class="data-form" action="{{ url_for('update_item', item_id=item.item_id) }}" method="post">
+  <label for="title">Title (empty for none):</label>
+  <input type="text" name="title" value="{{ title }}">
+  <label for="tags">Tags (separate with spaces):</label>
+  <textarea type="text" name="tags" rows=10 cols=60 id="tags-autocomplete">{{ ' '.join(tag_names) }}</textarea>
+  <input type="submit" value="Save">
+</form>
+
+<script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
+<script>
+  var tags = [{% for tag in all_tags %}"{{ tag }}", {% endfor %}];
+  autocomplete(document.getElementById("tags-autocomplete"), tags);
+</script>
+
+
+<div id="media-container">
+  {% if is_video %}
+  <video class="media" controls autoplay loop>
+    <source src="{{ url }}">
+  </video>
+
+  {% else %}
+  <img class="media" src="{{ url }}" alt="{{ title }}">
+
+  {% endif %}
+</div>
+{% endblock %}

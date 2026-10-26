@@ -1,0 +1,8 @@
+{
+  "current_db": "db/main.db",
+  "options": {
+    "db/main.db": {
+      "background_color": "hsl(240, 56%, 77%)"
+    }
+  }
+}

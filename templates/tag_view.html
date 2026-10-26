@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+{% set id = tag['tag_id'] %}
+{% set name = tag['name'] %}
+{% set description = "" if tag['description'] == None else tag['description'] %}
+
+{% extends 'base.html' %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='tag_view.css') }}">
+{% endblock %}
+
+{% block content %}
+<div>
+  <h5>{{ name }}</h5>
+  <p id="description">{{ description }}</p>
+  <div style="display: flex; gap: 16px">
+    <div>
+      <h5>Implied by</h5>
+      <ul class="plain-list">
+        {% for tag in implied_by %}
+        <li class="tag"><a href="{{ url_for('view_tag', tag_id=tag.tag_id) }}">{{ tag.name }}</a></li>
+        {% endfor %}
+      </ul>
+      <h5>Full implied by</h5>
+      <ul class="plain-list">
+        {% for tag in implied_by_full %}
+        <li class="tag"><a href="{{ url_for('view_tag', tag_id=tag.tag_id) }}">{{ tag.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div>
+      <h5>Implies</h5>
+      <ul class="plain-list">
+        {% for tag in implies %}
+        <li class="tag"><a href="{{ url_for('view_tag', tag_id=tag.tag_id) }}">{{ tag.name }}</a></li>
+        {% endfor %}
+      </ul>
+      <h5>Full implies</h5>
+      <ul class="plain-list">
+        {% for tag in implies_full %}
+        <li class="tag"><a href="{{ url_for('view_tag', tag_id=tag.tag_id) }}">{{ tag.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <ul class="plain-list action-list" style="margin:8px">
+    <li><a href="{{ url_for('edit_tag', tag_id=id) }}">Edit</a></li>
+    <li><a href="{{ url_for('search', q=name) }}">View</a></li>
+    {#
+    <li><a href="{{ url_for('delete_tag', tag_id=id) }}">Delete</a></li>
+    #}
+  </ul>
+</div>
+{% endblock %}

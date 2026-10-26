@@ -1,0 +1,15 @@
+h5 {
+  font-size: 120%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.tag a {
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+}
+
+.tag a:hover {
+  color: rgba(0, 0, 0, 0.9);
+}
+

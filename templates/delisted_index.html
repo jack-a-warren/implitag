@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Delisted{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; flex-flow: column wrap; gap: 8px; margin-bottom: 32px;">
+  <div class="items">
+    {% for media in medias %} 
+
+    <div class="item">
+      <a class="thumb" href="{{ url_for('view_item', item_id=media['item_id']) }}" >
+        <img src="{{ media['url'] }}" alt="{{ media['item_id'] }}" {% if media['is_video'] %} class="video-thumb" {% endif %}>
+      </a>
+
+      {% if media['title'] %}
+      <p>{{ media['title'] }}</p>
+      {% endif %}
+      <a class="action" href="{{ url_for('relist_item', item_id=media['item_id'], pid=page_id) }}">Relist</a>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="paginator">
+    {% for link in page_links %}
+    <a href="{{ url_for('view_delisted', pid=link.pid) }}" {% if link.current %}class="current"{% endif %} {% if not link.active %}class="inactive"{% endif %}>{{ link.text }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}New tag{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='tag_new.css') }}">
+{% endblock %}
+
+{% block content %}
+<div>
+  <form class="data-form" action="{{ url_for('new_tag') }}" method="post">
+    <label for="name">Name</label>
+    <input type="text" name="name" value="">
+    <label for="description">Descrpition (empty for none)</label>
+    <textarea type="text" name="description" rows=10 cols=60></textarea>
+    <label for="implied_by">Implied by (separated with spaces)</label>
+    <textarea type="text" name="implied_by" id="implied_by" rows=10 cols=60></textarea>
+    <label for="implies">Implies (separated with spaces)</label>
+    <textarea type="text" name="implies" id="implies" rows=10 cols=60></textarea>
+    <input type="submit" value="Create">
+  </form>
+  <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
+  <script>
+    var tags = [{% for tag in all_tags %}"{{ tag }}", {% endfor %}];
+    autocomplete(document.getElementById("implied_by"), tags);
+    autocomplete(document.getElementById("implies"), tags);
+  </script>
+</div> 
+{% endblock %}

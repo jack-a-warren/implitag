@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block stylesheet %}
+<style>
+.confirm input {
+  color: red;
+  margin-bottom: 4px;
+  display: block;
+  width: 100px;
+  padding: 0px;
+  box-sizing: border-box;
+  border-radius: 1px;
+  border: 2px solid red;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div>
+  <h5>Please type 'CONFIRM' to confirm</h5>
+  <p>This action will delete the tag '{{ tag.name }}', its relationships to any items and any implication relationships it has. This <strong>can not</strong> be undone. Are you sure?</p>
+  <form class="confirm" action="{{ url_for('do_delete_tag', tag_id=tag.tag_id)}}">
+    <input type="text" name="confirm" value="">
+    <input type="submit" value="CONFIRM">
+  </form>
+</div>
+{% endblock %}
