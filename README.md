@@ -84,8 +84,7 @@ collected in a results page and presented to the user.
 
 ## Tech stack
 
-- tagging system - Python
+- tagging system - Python, SQLite
 - backend - Python, Flask
 - frontend - HTML, CSS, JS
-- DB - SQLite
 - configuration - JSON
